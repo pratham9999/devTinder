@@ -4,6 +4,11 @@ import  {connectDB}  from "./config/database.js"
 import dotenv from "dotenv"
 import userModel from "./models/user.js"
 import http from "http"
+import cookieParser from "cookie-parser"
+
+
+import authRouter from "./routes/auth.js"
+import userRouter from "./routes/user.js"
 
 
 dotenv.config()
@@ -17,7 +22,11 @@ app.use(cors({
     credentials : true,
 }))
 app.use(express.json())
+app.use(cookieParser())
 
+
+app.use("/" , authRouter)
+app.use("/" , userRouter)
 
 
 

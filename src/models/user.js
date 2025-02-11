@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
+import validator from "validator"
 
 const userSchema = new mongoose.Schema({
 
@@ -20,10 +21,20 @@ const userSchema = new mongoose.Schema({
         required : true,
         unique : true,
         trim:true,
+        validate(value){
+            if(!validator.isEmail(value)){
+                throw new Error("Invalid email address" + value)
+            }
+        }
     } ,
     password :{
         type:String,
         required:true,
+        validate(value){
+            if(!validator.isStrongPassword(value)){
+                throw new Error("Enter a Strong Password" + value);
+            }
+        }
     } ,
     age :{
         type:Number,
@@ -44,11 +55,16 @@ const userSchema = new mongoose.Schema({
     photoUrl  :{
         type : String,
         default: "https://geographyandyou.com/images/user-profile.png",
+        validate(value){
+            if(!validator.isURL(value)){
+                throw new Error("Invalid Photo URL : " + value)
+            }
+        }
 
     } ,
     about : {
         type :String,
-        default  : "This is a default about og the user",
+        default  : "This is a default about the user",
     } ,
 
     skills : {
