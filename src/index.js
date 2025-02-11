@@ -3,6 +3,7 @@ import cors from "cors"
 import  {connectDB}  from "./config/database.js" 
 import dotenv from "dotenv"
 import userModel from "./models/user.js"
+import http from "http"
 
 
 dotenv.config()
@@ -11,30 +12,16 @@ const app = express();
 
 
 
-app.use(cors())
+app.use(cors({
+    origin : "http:/localhost:5173",
+    credentials : true,
+}))
 app.use(express.json())
 
 
-app.post("/signup" , async (req, res)=>{
 
-    
-    const user = req.body
-    
-    
-    const users =await  userModel.create(user)
 
-    res.send("user added succesfully")
-    
-      
-})
 
-//Feed api 
-app.get("/feed" , async  (req , res)=>{
-         const user = await userModel.find({})
-         res.json({
-             user
-         }) 
-})
  
 connectDB()
   .then(() => {
