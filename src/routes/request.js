@@ -65,7 +65,7 @@ requestsRouter.post("/request/review/:status/requestId" , userAuth , async (req 
 
             const loggedInUser = req.user;
             const {status , requestId} = req.params;
-            const {allowedStatus} = ["accepted" , "rejected"];
+            const allowedStatus = ["accepted" , "rejected"];
             if(!allowedStatus.includes(status)){
                 return res.status(400).json({message : "Status not allowed!"})
             }

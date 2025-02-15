@@ -1,11 +1,16 @@
 import express from "express"
 import userModel from "../models/user.js";
 import bcrypt from "bcrypt"
+import { validateSignUpData } from "../utils/validation.js";
 
 const authRouter= express.Router();
 
 authRouter.post("/signup" , async(req,res)=>{
     try {
+ 
+         // validation of data
+
+         validateSignUpData(req)
 
         const {firstName , lastName , emailId , password} = req.body;
 
