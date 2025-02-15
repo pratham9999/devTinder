@@ -15,8 +15,11 @@ authRouter.post("/signup" , async(req,res)=>{
         const {firstName , lastName , emailId , password} = req.body;
 
         // Encrypt the password 
+        
+        
 
         const passwordHash = await bcrypt.hash(password , 10)
+        
 
         const user = new userModel({
             firstName,
@@ -24,6 +27,8 @@ authRouter.post("/signup" , async(req,res)=>{
             emailId,
             password : passwordHash,
         })
+
+        
 
         const saveUser = await user.save();
         const token = await saveUser.getJWT();

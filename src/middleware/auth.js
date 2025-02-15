@@ -3,7 +3,7 @@ import userModel from "../models/user.js";
 
 const userAuth = async (req , res , next)=>{
     try {
-        const {token} = res.cookies;
+        const {token} = req.cookies;
         if(!token){
             return res.status(401).send("Please Login")
 

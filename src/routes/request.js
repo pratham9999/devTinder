@@ -59,10 +59,11 @@ requestsRouter.post("/request/send/:status/:toUserId" , userAuth  , async(req , 
      }
 })
 
-requestsRouter.post("/request/review/:status/requestId" , userAuth , async (req , res)=>{
+requestsRouter.post("/request/review/:status/:requestId" , userAuth , async (req , res)=>{
          try {
 
-
+         console.log("code caame here");
+         
             const loggedInUser = req.user;
             const {status , requestId} = req.params;
             const allowedStatus = ["accepted" , "rejected"];
@@ -86,7 +87,7 @@ requestsRouter.post("/request/review/:status/requestId" , userAuth , async (req 
 
             const data = await connectionRequest.save();
             res.json({
-                message : "Connection request" + status , data
+                message : "Connection request " + status , data
             })
             
          } catch (error) {

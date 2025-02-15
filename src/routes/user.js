@@ -5,7 +5,7 @@ import userAuth from "../middleware/auth.js"
 
 const userRouter  = express.Router();
 
-const USER_SAFE_DATA="fistName lastName photoUrl age gender about skills"
+const USER_SAFE_DATA="firstName lastName photoUrl age gender about skills"
 
 //Get all the pending connection request for the loggedIn user 
 
@@ -43,7 +43,7 @@ userRouter.get("/user/connections" , userAuth , async(req , res)=>{
         .populate("fromUserId" , USER_SAFE_DATA)
         .populate("toUserId" , USER_SAFE_DATA)
         
-        console.log(connectionRequests);
+        
 
         const data = connectionRequests.map((row)=>{
             if(row.fromUserId._id.toString()===loggedInUser._id.toString()){
