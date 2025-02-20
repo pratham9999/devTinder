@@ -63,7 +63,7 @@ authRouter.post("/login" , async(req,res)=>{
             const token= await user.getJWT();
             res.cookie("token" , token , {
                 httpOnly: true,  // Prevents client-side JavaScript from accessing cookies (security best practice)
-                secure: false,   // Set to true if using HTTPS
+                secure: process.env.NODE_ENV="production",   // Set to true if using HTTPS
                 sameSite: "lax", // Allows cookies in cross-origin requests
                 expires : new Date(Date.now() + 8 * 3600000)
             });
