@@ -7,10 +7,12 @@ import http from "http"
 import cookieParser from "cookie-parser"
 
 
+
 import authRouter from "./routes/auth.js"
 import userRouter from "./routes/user.js"
 import profileRouter from "./routes/profile.js"
 import requestRouter from  "./routes/request.js"
+import { intializeSocket } from "./utils/socket.js"
 
 
 dotenv.config()
@@ -40,6 +42,8 @@ app.use("/" , profileRouter)
 app.use("/" , requestRouter)
 app.use("/" , userRouter)
 
+const server = http.createServer(app)
+intializeSocket(server)
 
 
 
@@ -47,7 +51,7 @@ app.use("/" , userRouter)
 connectDB()
   .then(() => {
     console.log("Database connection established...");
-    app.listen(process.env.PORT || 7777, () => {
+    server.listen(process.env.PORT || 7777, () => {
       console.log("Server is successfully listening on port 7777...");
     });
   })
