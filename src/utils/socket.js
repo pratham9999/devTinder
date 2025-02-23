@@ -1,6 +1,7 @@
 
 import { Server } from "socket.io";
 import crypto from "crypto"
+import ChatModel from "../models/chat.js";
 
 const getSecretRoomId = (userId , id)=>{
 
@@ -31,12 +32,44 @@ export const intializeSocket = (server)=>{
 
         });
         
-        socket.on("sendMessage" , ({firstName , userId , id , text})=>{
+        socket.on("sendMessage" , async ({firstName , userId , id , text})=>{
 
-            const roomId = getSecretRoomId(userId , id)
-            console.log(firstName , " " , text);
+
+            try {
+                const roomId = getSecretRoomId(userId , id)
+                console.log(firstName , " " , text);
+
+             // save the message to database
+
+            let chat = await ChatModel.findOne({
+                  participants : {$all : [userId , id]} ,
+            }) ;
+
+            if(!chat){
+                chat = new ChatModel({
+                    participants : [userId , id],
+                    messages : []
+                })
+            }
+
+            chat.messages.push({
+                senderId : userId,
+                text,
+            })
+
+            await chat.save();
+
+
+
+                io.to(roomId).emit("messageReceived" , {firstName , text} )
+
+                
+            } catch (error) {
+                console.log(error);
+                
+                
+            }
             
-            io.to(roomId).emit("messageReceived" , {firstName , text} )
 
         })
         

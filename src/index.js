@@ -13,6 +13,8 @@ import userRouter from "./routes/user.js"
 import profileRouter from "./routes/profile.js"
 import requestRouter from  "./routes/request.js"
 import { intializeSocket } from "./utils/socket.js"
+import { channel } from "process"
+import chatRouter from "./routes/chat.js"
 
 
 dotenv.config()
@@ -41,6 +43,7 @@ app.use("/" , authRouter)
 app.use("/" , profileRouter)
 app.use("/" , requestRouter)
 app.use("/" , userRouter)
+app.use("/" , chatRouter)
 
 const server = http.createServer(app)
 intializeSocket(server)
